@@ -41,31 +41,27 @@ axios({
 app.get('/mensa/:day', async (req, res) => {
   //if no category, many meals appear with findMany()
   let key = {
-    day: req.body.day
+    day: req.params.day
   }
+  console.log("params.day", req.params.day);
   // let result = await database.collection("meals").findOne(key)
-  let result = await database.collection("meals").find(key)
+  let result = await database.collection("meals").find(key).toArray()
   // result.forEach(item => console.log) 
-  //console.log("get", result);
+  console.log("get", result);
   if (!result) {
     res.status(401).send("Error");
   }
-  let myDocument;
-  let docs = [];
-  while (result.hasNext()) {
-    myDocument = await result.next();
-    if (myDocument) {
-      console.log("CURSORDATEN", myDocument);
-      docs.push();
-    }
-  }
+  // let myDocument;
+  // let docs = [];
+  // while (result.hasNext()) {
+  //   myDocument = await result.next();
+  //   if (myDocument) {
+  //     console.log("CURSORDATEN", myDocument);
+  //     docs.push();
+  //   }
+  // }
 
-
-
-  //if this object is filled, console prints result
-
-
-  res.status(200).send("OK");
+  res.status(200).send(result);
 });
 
 
