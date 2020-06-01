@@ -40,7 +40,7 @@ axios({
 
 app.get('/mensa/:day', (req, res) => {
   if (req.params.day === 'Di') {
-    let data = {data: "data"}
+    let data = {name: "Pizza"}
     database.collection("meals").findOne(data, function(err, result) {
       if(err) throw err;
       console.log(result);
@@ -52,8 +52,14 @@ app.get('/mensa/:day', (req, res) => {
 });
 
 
-app.post('/mensa/insert',(req, res, next) =>{
+app.post('/mensa',async(req, res, next) =>{
   let data = {data: req.body};
+  let key = {day:req.body.day, category:req.body.category}
+  result = await database.collection("meals").findOne(key, function(err, result) {
+    if(err) throw err;
+    console.log(result);
+    res.send(result);
+  })
   database.collection("meals").insertOne(data, function(err, res) {
     if (err) throw err;
     console.log("1 documented inserted!");
